@@ -1,0 +1,22 @@
+
+###### I have a sample file "flights.csv" at location "home/user/Desktop/test_data" #################################
+###### I will create a sample table 'flights' and load the data from the sample file into this mysql table ##########
+
+###### The file "flights.csv" has some columns missing i.e. blank columns ###########################################
+###### This has to be taken care during loading into table else the load-process will generate warnings #############
+
+
+create table flights (fl_date date, airline_id int(11), fl_num varchar(10), origin varchar(10), dest varchar(10), dep_time varchar(10), dep_delay float(10,2), arr_time varchar(10), arr_delay float(10,2), air_time float(10,2), distance float(10,2) );
+
+
+load data local infile '/home/user/Desktop/test_data/flights.csv' into table flights \
+fields terminated by ',' enclosed by '"' \
+lines terminated by ',\n' \
+ignore 1 lines \
+(fl_date, airline_id, fl_num, origin, dest, dep_time, @dep_delay, arr_time, @arr_delay, @air_time, distance) \
+set dep_delay=nullif(@dep_delay,''), \
+air_time=if(@air_time='',NULL,@air_time), \
+arr_delay=if(@arr_delay='',NULL,@arr_delay) ;
+
+
+

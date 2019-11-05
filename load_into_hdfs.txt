@@ -1,0 +1,12 @@
+
+##### I use the below sqoop command to import data from mysql server to HDFS ########################
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/project \
+--username user \
+-P \
+--table flights \
+--target-dir /hdfs/practice/flights \
+--m 1
+
+
